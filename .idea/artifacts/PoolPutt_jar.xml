@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PoolPutt:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PoolPutt_jar</output-path>
+    <root id="archive" name="PoolPutt.jar">
+      <element id="module-output" name="PoolPutt" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

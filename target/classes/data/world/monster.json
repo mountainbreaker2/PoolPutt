@@ -1,0 +1,12 @@
+{
+  "id": "monster",
+  "tileSize": 16,
+  "animations": [
+    {
+      "id": "idle",
+      "startFrame": 0,
+      "endFrame": 3,
+      "framerate": 2.0
+    }
+  ]
+}
