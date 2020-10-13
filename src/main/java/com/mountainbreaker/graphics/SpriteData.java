@@ -18,7 +18,7 @@ public class SpriteData {
 
         JsonNode node;
         try {
-            System.out.println(genPath(id));
+            //System.out.println(genPath(id));
             node = JSONLoader.parse(Sprite.class.getResourceAsStream(genPath(id)));
         } catch (Throwable e) {
             return spriteList.get(0);

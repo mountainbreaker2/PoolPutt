@@ -30,7 +30,7 @@ public class PoolPutt extends Canvas implements Runnable {
         setMaximumSize(new Dimension(WIDTH, HEIGHT));
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
-        world = new World(new Viewport(this, NAME), WIDTH * 10, HEIGHT * 10, 16);
+        world = new World(new Viewport(this, NAME), WIDTH * 2, HEIGHT * 2, 16);
         world.getViewport().scale = 3.0f;
 
         addMouseListener(new MouseAdapter() {
@@ -100,6 +100,8 @@ public class PoolPutt extends Canvas implements Runnable {
             }
 
         });
+
+        world.build();
 
         requestFocus();
 

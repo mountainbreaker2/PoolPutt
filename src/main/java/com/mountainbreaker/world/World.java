@@ -18,7 +18,7 @@ public class World {
     private Vector<Tile> components;
     private Vector<Sprite> drawList;
 
-    private ArrayList<Tile> terrain;
+    private final ArrayList<Tile> terrain;
 
     private double lastUpdate;
 
@@ -36,20 +36,20 @@ public class World {
         this.tilesX = sizeX / tileSize;
         this.tilesY = sizeY / tileSize;
 
-        viewOffX = 400.0f;
+        viewOffX = 0.0f;
         viewOffY = 0.0f;
 
         components = new Vector<>();
         drawList = new Vector<>();
 
-        terrain = new ArrayList<>(tilesX * tilesY);
+        terrain = new ArrayList<>();
 
         lastUpdate = System.nanoTime();
     }
 
     public void build() {
-        for(int i = 0; i < terrain.size(); i++) {
-            terrain.set(i, new Tile(Sprite.load("terrain"), (float)(i % tilesX * tileSize), (float)(i / tilesY * tileSize), true, true));
+        for(int i = 0; i < tilesX * tilesY; i++) {
+            terrain.add(new Tile(Sprite.load("terrain"), (float)(i % tilesX * tileSize), (float)(i / tilesY * tileSize), true, true));
         }
     }
 
@@ -68,14 +68,31 @@ public class World {
         setViewOffX(getViewOffX() + viewDeltaX);
         setViewOffY(getViewOffY() + viewDeltaY);
 
+        //System.out.println("Terrain size: " + terrain.size());
+        /*for(Tile t : terrain) {
+            if(t.sprite != null) {
+                if (t.px + t.width * viewport.scale >= viewOffX && t.px <= viewOffX + viewport.width && t.py + t.height * viewport.scale >= viewOffY && t.py <= viewOffY + viewport.height) {
+                    // Set sprite position to WorldComponent position translated into viewport (screen) space
+                    // then add it to the draw list passed to the viewport.
+                    t.sprite.px = (int)(t.px - viewOffX);
+                    t.sprite.py = (int)(t.py - viewOffY);
+                    drawList.add(t.sprite);
+                }
+            }
+            else {
+                System.out.println("Sprite null");
+            }
+
+        }*/
+
         for(Tile c : components) {
             if(c.active) c.tick(frameTime);
             if(c.visible) {
-                if (c.px >= viewOffX && c.px <= viewOffX + viewport.width && c.py >= viewOffY && c.py <= viewOffY + viewport.height) {
+                if (c.px + c.width * viewport.scale >= viewOffX && c.px <= viewOffX + viewport.width && c.py + c.height * viewport.scale >= viewOffY && c.py <= viewOffY + viewport.height) {
                     // Set sprite position to WorldComponent position translated into viewport (screen) space
                     // then add it to the draw list passed to the viewport.
-                    c.sprite.px = (int)(c.px - viewOffX);
-                    c.sprite.py = (int)(c.py - viewOffY);
+                    c.sprite.px = wtvX(c.px);
+                    c.sprite.py = wtvY(c.py);
                     drawList.add(c.sprite);
                 }
             }
@@ -154,7 +171,11 @@ public class World {
 
     public int getSizeY() { return sizeY;}
 
-    public float vtwX(int viewX) { return viewX + viewOffX; }
+    public float vtwX(int viewX) { return (viewX + viewOffX) / viewport.scale; }
 
-    public float vtwY(int viewY) { return viewY + viewOffY; }
+    public float vtwY(int viewY) { return (viewY + viewOffY) / viewport.scale; }
+
+    public int wtvX(float worldX) { return (int)((worldX - viewOffX) * viewport.scale); }
+
+    public int wtvY(float worldY) { return (int)((worldY - viewOffY) * viewport.scale); }
 }
