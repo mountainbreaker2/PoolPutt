@@ -20,9 +20,9 @@ public class PoolPutt extends Canvas implements Runnable {
 
     World world;
 
-    float speed = 1.0f;
+    float speed = 3.0f;
 
-    public static final int FRAMERATE = 2;
+    public static final int FRAMERATE = 60;
 
     boolean running = false;
 
@@ -39,7 +39,15 @@ public class PoolPutt extends Canvas implements Runnable {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                world.addComponent(new Tile(Sprite.load("monster"), world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
+                switch(e.getButton()) {
+                    case MouseEvent.BUTTON1:
+                        world.addComponent(new Tile(Sprite.load("monster"), world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
+                        break;
+                    case MouseEvent.BUTTON3:
+                        System.out.println("Right clicked");
+                        world.addComponent(new Tile(Sprite.load("ghost"), world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
+                        break;
+                }
             }
 
             @Override

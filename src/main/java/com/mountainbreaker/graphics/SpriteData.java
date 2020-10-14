@@ -13,20 +13,27 @@ public class SpriteData {
 
     public static SpriteData load(String id) {
         if(spriteList.size() == 0) {
-            SpriteData data = new SpriteData();
+            System.out.println("Adding null sprite data");
+            spriteList.add(new SpriteData());
+        }
+
+        System.out.println("Sprite data found: " + spriteList.size());
+        for(SpriteData data : spriteList) {
+            System.out.println(id);
+            System.out.println(data.id);
+            if(data.id.equals(id)) return data;
         }
 
         JsonNode node;
         try {
-            //System.out.println(genPath(id));
             node = JSONLoader.parse(Sprite.class.getResourceAsStream(genPath(id)));
         } catch (Throwable e) {
             return spriteList.get(0);
         }
+        if(node == null) return spriteList.get(0);
 
         SpriteData data = JSONLoader.fromJSON(node, SpriteData.class);
         spriteList.add(data);
-
         return data;
     }
 
@@ -43,6 +50,7 @@ public class SpriteData {
     SpriteData() {
         id = "null";
         animations = new Vector<>();
+        animations.add(new Sprite.Animation());
     }
 
     SpriteData(String spriteSheetFile, Vector<Sprite.Animation> animations) {
