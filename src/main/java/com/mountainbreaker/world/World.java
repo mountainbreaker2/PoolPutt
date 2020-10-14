@@ -63,38 +63,17 @@ public class World {
 
     public void update(double frameTime) {
         drawList.clear();
-        double deltaTime = (frameTime - lastUpdate);
+        //double deltaTime = (frameTime - lastUpdate);
 
         setViewOffX(getViewOffX() + viewDeltaX);
         setViewOffY(getViewOffY() + viewDeltaY);
 
-        //System.out.println("Terrain size: " + terrain.size());
-        /*for(Tile t : terrain) {
-            if(t.sprite != null) {
-                if (t.px + t.width * viewport.scale >= viewOffX && t.px <= viewOffX + viewport.width && t.py + t.height * viewport.scale >= viewOffY && t.py <= viewOffY + viewport.height) {
-                    // Set sprite position to WorldComponent position translated into viewport (screen) space
-                    // then add it to the draw list passed to the viewport.
-                    t.sprite.px = (int)(t.px - viewOffX);
-                    t.sprite.py = (int)(t.py - viewOffY);
-                    drawList.add(t.sprite);
-                }
-            }
-            else {
-                System.out.println("Sprite null");
-            }
-
-        }*/
-
         for(Tile c : components) {
             if(c.active) c.tick(frameTime);
             if(c.visible) {
-                if (c.px + c.width * viewport.scale >= viewOffX && c.px <= viewOffX + viewport.width && c.py + c.height * viewport.scale >= viewOffY && c.py <= viewOffY + viewport.height) {
-                    // Set sprite position to WorldComponent position translated into viewport (screen) space
-                    // then add it to the draw list passed to the viewport.
-                    c.sprite.px = wtvX(c.px);
-                    c.sprite.py = wtvY(c.py);
-                    drawList.add(c.sprite);
-                }
+                c.sprite.px = wtvX(c.px);
+                c.sprite.py = wtvY(c.py);
+                drawList.add(c.sprite);
             }
         }
 
@@ -171,11 +150,13 @@ public class World {
 
     public int getSizeY() { return sizeY;}
 
-    public float vtwX(int viewX) { return (viewX + viewOffX) / viewport.scale; }
+    // View to World coordinates
+    public float vtwX(int viewX) { return (viewX + viewOffX); }
 
-    public float vtwY(int viewY) { return (viewY + viewOffY) / viewport.scale; }
+    public float vtwY(int viewY) { return (viewY + viewOffY); }
 
-    public int wtvX(float worldX) { return (int)((worldX - viewOffX) * viewport.scale); }
+    // World to view coordinates
+    public int wtvX(float worldX) { return (int)((worldX - viewOffX)); }
 
-    public int wtvY(float worldY) { return (int)((worldY - viewOffY) * viewport.scale); }
+    public int wtvY(float worldY) { return (int)((worldY - viewOffY)); }
 }

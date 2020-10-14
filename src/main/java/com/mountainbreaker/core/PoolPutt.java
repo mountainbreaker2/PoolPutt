@@ -13,24 +13,25 @@ import java.awt.event.MouseEvent;
 
 public class PoolPutt extends Canvas implements Runnable {
 
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 600;
+    public static final int WIDTH = 260;
+    public static final int HEIGHT = 200;
+    public static final float SCALE = 3.0f;
     public static final String NAME = "Pool Putt";
 
     World world;
 
-    float speed = 5.0f;
+    float speed = 1.0f;
 
-    public static final int FRAMERATE = 60;
+    public static final int FRAMERATE = 2;
 
     boolean running = false;
 
     PoolPutt() {
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setMaximumSize(new Dimension(WIDTH, HEIGHT));
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setMinimumSize(new Dimension((int)(WIDTH * SCALE), (int)(HEIGHT * SCALE)));
+        setMaximumSize(new Dimension((int)(WIDTH * SCALE), (int)(HEIGHT * SCALE)));
+        setPreferredSize(new Dimension((int)(WIDTH * SCALE), (int)(HEIGHT * SCALE)));
 
-        world = new World(new Viewport(this, NAME), WIDTH * 2, HEIGHT * 2, 16);
+        world = new World(new Viewport(this, NAME, SCALE), WIDTH * 2, HEIGHT * 2, 16);
         world.getViewport().scale = 3.0f;
 
         addMouseListener(new MouseAdapter() {
@@ -101,7 +102,7 @@ public class PoolPutt extends Canvas implements Runnable {
 
         });
 
-        world.build();
+        //world.build();
 
         requestFocus();
 

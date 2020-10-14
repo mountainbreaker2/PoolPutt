@@ -8,9 +8,6 @@ public class Viewport extends JFrame {
     private static final int DEFAULT_WIDTH = 100;
     private static final int DEFAULT_HEIGHT = 100;
 
-    private static int nextViewNum = 0;
-    private int thisViewNumber;
-
     public int width = DEFAULT_WIDTH;
     public int height = DEFAULT_HEIGHT;
 
@@ -21,9 +18,7 @@ public class Viewport extends JFrame {
     public Canvas parentCanvas = null;
 
     public Viewport() {
-        super("Screen " + nextViewNum);
-        thisViewNumber = nextViewNum;
-        nextViewNum++;
+        super("Screen");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -33,10 +28,10 @@ public class Viewport extends JFrame {
         setVisible(true);
     }
 
-    public Viewport(Canvas canvas, String applicationName) {
+    public Viewport(Canvas canvas, String applicationName, float viewScale) {
         super(applicationName);
-        thisViewNumber = nextViewNum;
-        nextViewNum++;
+
+        scale = Math.max(viewScale, 1.0f);
 
         width = canvas.getPreferredSize().width;
         height = canvas.getPreferredSize().height;
@@ -60,10 +55,10 @@ public class Viewport extends JFrame {
             Graphics g = parentCanvas.getBufferStrategy().getDrawGraphics();
 
             g.setColor(Color.BLACK);
-            g.fillRect(0, 0, width, height);
+            g.fillRect(0, 0, (int)(width), (int)(height));
             for(Sprite sprite : spriteList) {
-                int drawSize = (int)(sprite.spriteSheet.tileSize * scale);
-                g.drawImage(sprite.image(), sprite.px, sprite.py, drawSize, drawSize, null);
+                int drawSize = (int)(sprite.spriteSheet.tileSize);
+                g.drawImage(sprite.image(), (int)(sprite.px), (int)(sprite.py), drawSize, drawSize, null);
             }
 
             g.dispose();
