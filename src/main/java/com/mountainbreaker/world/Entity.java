@@ -7,8 +7,8 @@ public class Entity extends Tile {
     public float vx, vy;
     public float ax, ay;
 
-    public Entity(Sprite sprite, float atWorldX, float atWorldY, boolean visible, boolean active) {
-        super(sprite, atWorldX, atWorldY, visible, active);
+    public Entity(String id, float atWorldX, float atWorldY, boolean visible, boolean active) {
+        super(id, atWorldX, atWorldY, visible, active);
     }
 
     @Override

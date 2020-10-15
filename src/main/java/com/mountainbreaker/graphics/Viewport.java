@@ -55,10 +55,10 @@ public class Viewport extends JFrame {
             Graphics g = parentCanvas.getBufferStrategy().getDrawGraphics();
 
             g.setColor(Color.BLACK);
-            g.fillRect(0, 0, (int)(width * scale), (int)(height * scale));
+            //g.fillRect(0, 0, (int)(width), (int)(height));
             for(Sprite sprite : spriteList) {
                 int drawSize = (int)(sprite.spriteSheet.tileSize * scale);
-                g.drawImage(sprite.image(), (int)(sprite.px), (int)(sprite.py), drawSize, drawSize, null);
+                g.drawImage(sprite.image(), (int)(sprite.px * scale), (int)(sprite.py * scale), drawSize, drawSize, null);
             }
 
             g.dispose();

@@ -8,14 +8,10 @@ public class Tile extends Placeable {
 
     protected float width, height;
 
-    public Tile(Sprite sprite, float atWorldX, float atWorldY, boolean visible, boolean active) {
-        super(atWorldX, atWorldY, sprite);
+    public Tile(String id, float atWorldX, float atWorldY, boolean visible, boolean active) {
+        super(atWorldX, atWorldY, id);
 
-        if(sprite == null) {
-            this.visible = false;
-            width = height = 0;
-        }
-        else this.visible = visible;
+        this.visible = visible;
         width = sprite.image().getWidth();
         height = sprite.image().getHeight();
 
@@ -23,8 +19,6 @@ public class Tile extends Placeable {
     }
 
     public void tick(double frameTime) {
-        if(sprite != null) {
-            sprite.tick(frameTime);
-        }
+        sprite.tick(frameTime);
     }
 }

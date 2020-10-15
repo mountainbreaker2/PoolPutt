@@ -12,13 +12,11 @@ public class TiledImage {
 
     public static TiledImage getImage(String id) {
         if(imageList.size() == 0) {
-            System.out.println("Adding null image");
             imageList.add(new TiledImage());
         }
 
         for(TiledImage image : imageList) {
             if(image.id.equals(id)) {
-                System.out.println("Found tiled image: " + id);
                 return image;
             }
         }

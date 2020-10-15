@@ -32,9 +32,11 @@ public class World {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
 
-        this.tileSize = Math.min(1, tileSize);
+        this.tileSize = Math.max(1, tileSize);
+        System.out.println("Tile size: " + this.tileSize);
         this.tilesX = sizeX / tileSize;
         this.tilesY = sizeY / tileSize;
+        System.out.println("Tile dimensions: (" + this.tilesX + ", " + this.tilesY + ")");
 
         viewOffX = 0.0f;
         viewOffY = 0.0f;
@@ -49,7 +51,10 @@ public class World {
 
     public void build() {
         for(int i = 0; i < tilesX * tilesY; i++) {
-            terrain.add(new Tile(Sprite.load("terrain"), (float)(i % tilesX * tileSize), (float)(i / tilesY * tileSize), true, true));
+            float atX = (float)((i % tilesX) * tileSize);
+            float atY = (float)((i / tilesY) * tileSize);
+            terrain.add(new Tile("terrain", atX, atY, true, true));
+            System.out.println("Tile " + i + " at: (" + atX + ", " + atY + ")");
         }
     }
 
@@ -67,6 +72,15 @@ public class World {
 
         setViewOffX(getViewOffX() + viewDeltaX);
         setViewOffY(getViewOffY() + viewDeltaY);
+
+        for(Tile t : terrain) {
+            if(t.px > viewOffX - t.width && t.px < viewport.width + viewOffX && t.py > viewOffY - t.height && t.py < viewport.height + viewOffY) {
+                t.tick(frameTime);
+                t.sprite.px = wtvX(t.px);
+                t.sprite.py = wtvY(t.py);
+                drawList.add(t.sprite);
+            }
+        }
 
         for(Tile c : components) {
             if(c.active) c.tick(frameTime);

@@ -13,14 +13,10 @@ public class SpriteData {
 
     public static SpriteData load(String id) {
         if(spriteList.size() == 0) {
-            System.out.println("Adding null sprite data");
             spriteList.add(new SpriteData());
         }
 
-        System.out.println("Sprite data found: " + spriteList.size());
         for(SpriteData data : spriteList) {
-            System.out.println(id);
-            System.out.println(data.id);
             if(data.id.equals(id)) return data;
         }
 

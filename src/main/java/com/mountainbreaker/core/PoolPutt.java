@@ -41,11 +41,10 @@ public class PoolPutt extends Canvas implements Runnable {
 
                 switch(e.getButton()) {
                     case MouseEvent.BUTTON1:
-                        world.addComponent(new Tile(Sprite.load("monster"), world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
+                        world.addComponent(new Tile("monster", world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
                         break;
                     case MouseEvent.BUTTON3:
-                        System.out.println("Right clicked");
-                        world.addComponent(new Tile(Sprite.load("ghost"), world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
+                        world.addComponent(new Tile("ghost", world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
                         break;
                 }
             }
@@ -110,7 +109,7 @@ public class PoolPutt extends Canvas implements Runnable {
 
         });
 
-        //world.build();
+        world.build();
 
         requestFocus();
 

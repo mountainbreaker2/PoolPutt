@@ -8,13 +8,13 @@ public class Placeable {
 
     Placeable() {
         px = py = 0.0f;
-        sprite = null;
+        sprite = Sprite.nullSprite();
     }
 
-    Placeable(float px, float py, Sprite sprite) {
+    Placeable(float px, float py, String id) {
         this.px = px;
         this.py = py;
-        this.sprite = sprite;
+        this.sprite = Sprite.load(id);
     }
 
     public float getX() {
