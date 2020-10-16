@@ -13,8 +13,8 @@ import java.awt.event.MouseEvent;
 
 public class PoolPutt extends Canvas implements Runnable {
 
-    public static final int WIDTH = 260;
-    public static final int HEIGHT = 200;
+    public static final int WIDTH = 256;
+    public static final int HEIGHT = 208;
     public static final float SCALE = 3.0f;
     public static final String NAME = "Pool Putt";
 
@@ -27,12 +27,8 @@ public class PoolPutt extends Canvas implements Runnable {
     boolean running = false;
 
     PoolPutt() {
-        setMinimumSize(new Dimension((int)(WIDTH * SCALE), (int)(HEIGHT * SCALE)));
-        setMaximumSize(new Dimension((int)(WIDTH * SCALE), (int)(HEIGHT * SCALE)));
-        setPreferredSize(new Dimension((int)(WIDTH * SCALE), (int)(HEIGHT * SCALE)));
 
-        world = new World(new Viewport(this, NAME, SCALE), WIDTH * 2, HEIGHT * 2, 16);
-        world.getViewport().scale = 3.0f;
+        world = new World(new Viewport(this, NAME, WIDTH, HEIGHT, SCALE), (int)(WIDTH * 1.5), (int)(HEIGHT * 1.5), 16);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -41,7 +37,11 @@ public class PoolPutt extends Canvas implements Runnable {
 
                 switch(e.getButton()) {
                     case MouseEvent.BUTTON1:
+                        System.out.println("Mouse at " + e.getX() + ", " + e.getY());
                         world.addComponent(new Tile("monster", world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
+                        break;
+                    case MouseEvent.BUTTON2:
+                        world.setTile(world.vtwX(e.getX()), world.vtwY(e.getY()), 2);
                         break;
                     case MouseEvent.BUTTON3:
                         world.addComponent(new Tile("ghost", world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
