@@ -80,7 +80,7 @@ public class Sprite {
         newSprite.animations = Objects.requireNonNullElseGet(animations, Vector::new);
 
         if(newSprite.animations.size() < 1) {
-            newSprite.animations.add(new Sprite.Animation("blank",0, 0, 0.0f));
+            newSprite.animations.add(new Sprite.Animation());
         }
 
         newSprite.setAnimation(0);
@@ -105,7 +105,10 @@ public class Sprite {
 
     public void tick(double frameTime) {
         if(frameTime - lastUpdate > frameInterval && frameInterval > 0) {
-            indexOffset = (indexOffset + 1) % (animations.get(currentAnimation).endFrame - animations.get(currentAnimation).startFrame);
+            int startFrame = animations.get(currentAnimation).startFrame;
+            int endFrame = animations.get(currentAnimation).endFrame;
+            int length = endFrame - startFrame;
+            indexOffset = (indexOffset + 1) % (length + 1);
             lastUpdate = frameTime;
         }
     }

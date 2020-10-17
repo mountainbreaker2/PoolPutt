@@ -29,6 +29,9 @@ public class SpriteData {
         if(node == null) return spriteList.get(0);
 
         SpriteData data = JSONLoader.fromJSON(node, SpriteData.class);
+        for(Sprite.Animation anim : data.getAnimations()) {
+            System.out.println("ID " + anim.id + " start: " + anim.startFrame + " end: " + anim.endFrame + " framerate: " + anim.framerate);
+        }
         spriteList.add(data);
         return data;
     }

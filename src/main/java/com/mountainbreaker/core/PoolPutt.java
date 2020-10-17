@@ -15,7 +15,7 @@ public class PoolPutt extends Canvas implements Runnable {
 
     public static final int WIDTH = 256;
     public static final int HEIGHT = 208;
-    public static final float SCALE = 3.0f;
+    public static final float SCALE = 4.0f;
     public static final String NAME = "Pool Putt";
 
     World world;
@@ -37,11 +37,10 @@ public class PoolPutt extends Canvas implements Runnable {
 
                 switch(e.getButton()) {
                     case MouseEvent.BUTTON1:
-                        System.out.println("Mouse at " + e.getX() + ", " + e.getY());
                         world.addComponent(new Tile("monster", world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
                         break;
                     case MouseEvent.BUTTON2:
-                        world.setTile(world.vtwX(e.getX()), world.vtwY(e.getY()), 2);
+                        world.setTile(world.vtwX(e.getX()), world.vtwY(e.getY()), 3);
                         break;
                     case MouseEvent.BUTTON3:
                         world.addComponent(new Tile("ghost", world.vtwX(e.getX()), world.vtwY(e.getY()), true, true));
