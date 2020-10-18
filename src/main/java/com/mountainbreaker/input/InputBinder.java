@@ -21,7 +21,7 @@ public class InputBinder implements KeyListener, MouseInputListener {
             case ON_KEY_UP:
                 boundKeyUpActions.add(action);
                 break;
-            case ON_KEY_PRESSED:
+            case ON_KEY_TYPED:
                 boundKeyPressedActions.add(action);
                 break;
         }
