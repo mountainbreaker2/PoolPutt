@@ -37,7 +37,7 @@ public class Sprite {
 
     public int px, py;
 
-    TiledImage spriteSheet;
+    protected TiledImage spriteSheet;
 
     private int indexOffset;
     private int currentAnimation;

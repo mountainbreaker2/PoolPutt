@@ -2,6 +2,7 @@ package com.mountainbreaker.core;
 
 import com.mountainbreaker.graphics.Sprite;
 import com.mountainbreaker.graphics.Viewport;
+import com.mountainbreaker.ui.ScreenText;
 import com.mountainbreaker.world.World;
 import com.mountainbreaker.world.Tile;
 
@@ -20,6 +21,8 @@ public class PoolPutt extends Canvas implements Runnable {
 
     World world;
 
+    ScreenText testText;
+
     float speed = 3.0f;
 
     public static final int FRAMERATE = 60;
@@ -29,6 +32,9 @@ public class PoolPutt extends Canvas implements Runnable {
     PoolPutt() {
 
         world = new World(new Viewport(this, NAME, WIDTH, HEIGHT, SCALE), (int)(WIDTH * 1.5), (int)(HEIGHT * 1.5), 16);
+
+        testText = new ScreenText("Tooooltip", 3, 3, 3, 3);
+        world.addWidget(testText);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -66,6 +72,14 @@ public class PoolPutt extends Canvas implements Runnable {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+
+
+
             }
         });
 
@@ -130,6 +144,12 @@ public class PoolPutt extends Canvas implements Runnable {
         while(running) {
             double timeNow = System.nanoTime();
             if(timeNow - lastUpdate > frameInterval) {
+                Point p = getMousePosition();
+                if(p != null) {
+                    testText.px = (int)(p.x / world.getViewport().scale);
+                    testText.py = (int)(p.y / world.getViewport().scale);
+                    testText.setText("(" + testText.px + ", " + testText.py + ")");
+                }
                 world.update(timeNow);
 
                 lastUpdate = timeNow;

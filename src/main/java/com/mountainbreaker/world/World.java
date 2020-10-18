@@ -2,6 +2,7 @@ package com.mountainbreaker.world;
 
 import com.mountainbreaker.graphics.Sprite;
 import com.mountainbreaker.graphics.Viewport;
+import com.mountainbreaker.ui.ScreenText;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -21,6 +22,8 @@ public class World {
     private final ArrayList<Tile> terrain;
 
     private double lastUpdate;
+
+    private ArrayList<ScreenText> uiWidgets;
 
     public World(Viewport viewport, int sizeX, int sizeY, int tileSize) {
         this.viewport = viewport;
@@ -44,6 +47,8 @@ public class World {
 
         terrain = new ArrayList<>();
 
+        uiWidgets = new ArrayList<>();
+
         lastUpdate = System.nanoTime();
     }
 
@@ -59,6 +64,10 @@ public class World {
         if(wc == null) return;
 
         components.add(wc);
+    }
+
+    public void addWidget(ScreenText widget) {
+        uiWidgets.add(widget);
     }
 
     public void update(double frameTime) {
@@ -91,6 +100,11 @@ public class World {
                 c.sprite.py = us_wtvY(c.py);
                 drawList.add(c.sprite);
             }
+        }
+
+        for(ScreenText st : uiWidgets) {
+            st.tick(frameTime);
+            drawList.add(st);
         }
 
         lastUpdate = frameTime;

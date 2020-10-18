@@ -40,7 +40,7 @@ public class TiledImage {
 
     public BufferedImage baseImage = null;
 
-    private TiledImage() {
+    public TiledImage() {
         id = "null";
         baseImage = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
 
