@@ -59,14 +59,14 @@ public class Viewport extends JFrame {
         unscaledBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
-    public void render(Sprite[] spriteList) {
+    public void render(Drawable[] spriteList) {
         if(parentCanvas != null && parentCanvas.getBufferStrategy() != null) {
             //g.setColor(Color.BLACK);
             //g.fillRect(0, 0, (int)(width), (int)(height));
             Graphics g = unscaledBuffer.getGraphics();
-            for(Sprite sprite : spriteList) {
-                BufferedImage i = sprite.image();
-                g.drawImage(i, sprite.px, sprite.py, i.getWidth(), i.getHeight(), null);
+            for(Drawable drawable : spriteList) {
+                BufferedImage i = drawable.image();
+                g.drawImage(i, drawable.getX(), drawable.getY(), i.getWidth(), i.getHeight(), null);
             }
 
             g.dispose();
@@ -80,6 +80,10 @@ public class Viewport extends JFrame {
             getToolkit().sync();
         }
 
+    }
+
+    public int unscale(int coord) {
+        return (int)(coord / scale);
     }
 
 }

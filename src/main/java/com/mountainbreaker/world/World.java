@@ -1,8 +1,9 @@
 package com.mountainbreaker.world;
 
-import com.mountainbreaker.graphics.Sprite;
+import com.mountainbreaker.graphics.Drawable;
 import com.mountainbreaker.graphics.Viewport;
-import com.mountainbreaker.ui.ScreenText;
+import com.mountainbreaker.ui.Text;
+import com.mountainbreaker.ui.Widget;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -17,13 +18,13 @@ public class World {
     private float viewDeltaX, viewDeltaY;
 
     private Vector<Tile> components;
-    private final ArrayList<Sprite> drawList;
+    private final ArrayList<Drawable> drawList;
 
     private final ArrayList<Tile> terrain;
 
     private double lastUpdate;
 
-    private ArrayList<ScreenText> uiWidgets;
+    private ArrayList<Widget> uiWidgets;
 
     public World(Viewport viewport, int sizeX, int sizeY, int tileSize) {
         this.viewport = viewport;
@@ -66,7 +67,7 @@ public class World {
         components.add(wc);
     }
 
-    public void addWidget(ScreenText widget) {
+    public void addWidget(Text widget) {
         uiWidgets.add(widget);
     }
 
@@ -102,13 +103,13 @@ public class World {
             }
         }
 
-        for(ScreenText st : uiWidgets) {
-            st.tick(frameTime);
-            drawList.add(st);
+        for(Widget w : uiWidgets) {
+            //w.tick(frameTime);
+            drawList.add(w);
         }
 
         lastUpdate = frameTime;
-        viewport.render(drawList.toArray(new Sprite[0]));
+        viewport.render(drawList.toArray(new Drawable[0]));
 
     }
 
@@ -185,11 +186,6 @@ public class World {
     public float vtwX(int scaledX) { return (scaledX / viewport.scale + viewOffX); }
 
     public float vtwY(int scaledY) { return (scaledY / viewport.scale + viewOffY); }
-
-    // World to view coordinates
-    public int wtvX(float worldX) { return (int)((worldX - viewOffX) * viewport.scale); }
-
-    public int wtvY(float worldY) { return (int)((worldY - viewOffY) * viewport.scale); }
 
     // World to view coordinates
     public int us_wtvX(float worldX) { return (int)(worldX - viewOffX); }

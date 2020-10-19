@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.Objects;
 import java.util.Vector;
 
-public class Sprite {
+public class Sprite implements Drawable{
     ///////////////////////////////////////////////////////////////////
     // Animation class
     public static class Animation {
@@ -113,8 +113,19 @@ public class Sprite {
         }
     }
 
+    @Override
     public BufferedImage image() {
         return spriteSheet.getSprite(indexOffset + animations.get(currentAnimation).startFrame);
+    }
+
+    @Override
+    public int getX() {
+        return px;
+    }
+
+    @Override
+    public int getY() {
+        return py;
     }
 
 }
