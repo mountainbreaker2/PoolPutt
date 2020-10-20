@@ -19,6 +19,6 @@ public class Tile extends Placeable {
     }
 
     public void tick(double frameTime) {
-        sprite.tick(frameTime);
+        sprite.update(frameTime);
     }
 }

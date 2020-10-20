@@ -67,7 +67,7 @@ public class World {
         components.add(wc);
     }
 
-    public void addWidget(Text widget) {
+    public void addWidget(Widget widget) {
         uiWidgets.add(widget);
     }
 

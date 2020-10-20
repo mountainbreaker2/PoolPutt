@@ -16,24 +16,30 @@ public class Widget implements Drawable {
     protected final Rectangle bounds = new Rectangle();
     protected final Margins margins = new Margins();
 
+    protected String id;
+
     protected BufferedImage surface;
 
     protected Widget parent = null;
     protected final ArrayList<Widget> children = new ArrayList<>();
 
-    private void resurface() {
+    protected void resurface() {
         surface = null;
-        surface = new BufferedImage(bounds.width + margins.left + margins.right, bounds.height + margins.top + margins.bottom, BufferedImage.TYPE_INT_RGB);
+        surface = new BufferedImage(bounds.width + margins.left + margins.right, bounds.height + margins.top + margins.bottom, BufferedImage.TYPE_INT_ARGB);
     }
 
     public Widget() {
         moveTo(0, 0);
         setBounds( 1, 1);
+
+        id = Long.toString(System.currentTimeMillis());
     }
 
     public Widget(int atX, int atY, int width, int height) {
         moveTo(atX, atY);
         setBounds(width, height);
+
+        id = Long.toString(System.currentTimeMillis());
     }
 
     public void moveTo(int toX, int toY) {
@@ -42,8 +48,8 @@ public class Widget implements Drawable {
     }
 
     public void setBounds(int width, int height) {
-        bounds.width = Math.max(width, 1);
-        bounds.height = Math.max(height, 1);
+        bounds.width = Math.max(width + margins.left + margins.right, 1);
+        bounds.height = Math.max(height + margins.top + margins.bottom, 1);
 
         resurface();
     }
@@ -57,9 +63,41 @@ public class Widget implements Drawable {
         resurface();
     }
 
+    public void addChild(Widget child) {
+        child.parent = this;
+        children.add(child);
+
+        resurface();
+    }
+
+    public void setId(String id) { this.id = id; }
+
+    public Widget findById(String id) {
+        if(this.id.equals(id)) return this;
+
+        for(Widget w : children) {
+            Widget found = w.findById(id);
+            if(found != null) return found;
+        }
+
+        return null;
+    }
+
+    @Override
+    public void update(double frameTime) {
+    }
+
     @Override
     public BufferedImage image() {
-        return surface;
+        BufferedImage composite = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = composite.getGraphics();
+        g.drawImage(surface, 0, 0, bounds.width, bounds.height, null);
+        for(Widget w : children) {
+            g.drawImage(w.image(), w.bounds.x, w.bounds.y, w.bounds.width, w.bounds.height, null);
+        }
+        g.dispose();
+
+        return composite;
     }
 
     @Override

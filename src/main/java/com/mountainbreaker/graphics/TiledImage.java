@@ -42,7 +42,7 @@ public class TiledImage {
 
     public TiledImage() {
         id = "null";
-        baseImage = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
+        baseImage = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 
         width = baseImage.getWidth();
         height = baseImage.getHeight();

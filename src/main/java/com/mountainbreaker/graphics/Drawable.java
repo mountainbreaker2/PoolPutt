@@ -3,8 +3,9 @@ package com.mountainbreaker.graphics;
 import java.awt.image.BufferedImage;
 
 public interface Drawable {
-    public BufferedImage image();
+    BufferedImage image();
+    void update(double frameTime);
 
-    public int getX();
-    public int getY();
+    int getX();
+    int getY();
 }

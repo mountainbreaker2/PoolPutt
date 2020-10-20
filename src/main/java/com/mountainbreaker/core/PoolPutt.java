@@ -1,6 +1,7 @@
 package com.mountainbreaker.core;
 
 import com.mountainbreaker.graphics.Viewport;
+import com.mountainbreaker.ui.Area;
 import com.mountainbreaker.ui.Text;
 import com.mountainbreaker.ui.Widget;
 import com.mountainbreaker.world.World;
@@ -22,6 +23,7 @@ public class PoolPutt extends Canvas implements Runnable {
     World world;
 
     Text testText;
+    Area testArea;
 
     float speed = 3.0f;
 
@@ -33,9 +35,17 @@ public class PoolPutt extends Canvas implements Runnable {
 
         world = new World(new Viewport(this, NAME, WIDTH, HEIGHT, SCALE), (int)(WIDTH * 1.5), (int)(HEIGHT * 1.5), 16);
 
+        testArea = new Area(78, 65, 70, 60, Color.DARK_GRAY, Area.BackgroundStyle.STYLE_SHARP);
+        world.addWidget(testArea);
+
         testText = new Text("Tooooltip");
-        testText.setMargins(new Widget.Margins(5, 5, 5, 5));
-        world.addWidget(testText);
+        testText.moveTo(10, 10);
+        testText.setMargins(new Widget.Margins(0, 0, 0, 0));
+        testText.setId("testText");
+
+        testArea.addChild(testText);
+
+
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -121,6 +131,12 @@ public class PoolPutt extends Canvas implements Runnable {
                 }
             }
 
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                Text t = (Text)testArea.findById("testText");
+                //if(t != null) t.setText("Found");
+            }
         });
 
         world.build();
@@ -147,9 +163,10 @@ public class PoolPutt extends Canvas implements Runnable {
             if(timeNow - lastUpdate > frameInterval) {
                 Point p = getMousePosition();
                 if(p != null) {
-                    testText.moveTo((int)(p.x / world.getViewport().scale), (int)(p.y / world.getViewport().scale));
-                    testText.setText("(" + testText.getX() + ", " + testText.getY() + ")");
+                    //testText.moveTo((int)(p.x / world.getViewport().scale), (int)(p.y / world.getViewport().scale));
+                    //testText.setText("(" + world.vtwX(p.x) + ", " + world.vtwY(p.y) + ")");
                 }
+                testText.setText(Double.toString(System.currentTimeMillis()));
                 world.update(timeNow);
 
                 lastUpdate = timeNow;

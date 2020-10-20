@@ -1,14 +1,21 @@
 package com.mountainbreaker.ui;
 
 public class HUD {
-    private float scale = 1.0f;
+    Widget master;
 
     public HUD() {
-
+        master = new Widget();
     }
 
-    public void addWidget() {
+    public HUD(int width, int height, Widget masterWidget) {
+        if(masterWidget == null) {
+            master = new Widget(0, 0, width, height);
+        }
+        else master = masterWidget;
+    }
 
+    public void addWidget(Widget widget) {
+        master.addChild(widget);
     }
 
 }

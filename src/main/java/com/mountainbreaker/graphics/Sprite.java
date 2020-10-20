@@ -103,7 +103,8 @@ public class Sprite implements Drawable{
         lastUpdate = System.nanoTime();
     }
 
-    public void tick(double frameTime) {
+    @Override
+    public void update(double frameTime) {
         if(frameTime - lastUpdate > frameInterval && frameInterval > 0) {
             int startFrame = animations.get(currentAnimation).startFrame;
             int endFrame = animations.get(currentAnimation).endFrame;
