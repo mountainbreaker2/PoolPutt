@@ -17,7 +17,7 @@ public class PoolPutt extends Canvas implements Runnable {
 
     public static final int WIDTH = 256;
     public static final int HEIGHT = 208;
-    public static final float SCALE = 4.0f;
+    public static final float SCALE = 3.0f;
     public static final String NAME = "Pool Putt";
 
     World world;
@@ -35,15 +35,16 @@ public class PoolPutt extends Canvas implements Runnable {
 
         world = new World(new Viewport(this, NAME, WIDTH, HEIGHT, SCALE), (int)(WIDTH * 1.5), (int)(HEIGHT * 1.5), 16);
 
-        testArea = new Area(78, 65, 70, 60, Color.DARK_GRAY, Area.BackgroundStyle.STYLE_SHARP);
+        testArea = new Area(0, (HEIGHT / 4) * 3, WIDTH / 3, HEIGHT / 4, new Color(200, 200, 200), Area.BackgroundStyle.STYLE_SHARP);
         world.addWidget(testArea);
 
         testText = new Text("Tooooltip");
-        testText.moveTo(10, 10);
+        testText.moveTo(0, 0);
         testText.setMargins(new Widget.Margins(0, 0, 0, 0));
         testText.setId("testText");
 
         testArea.addChild(testText);
+        //world.addWidget(testText);
 
 
 
@@ -164,9 +165,8 @@ public class PoolPutt extends Canvas implements Runnable {
                 Point p = getMousePosition();
                 if(p != null) {
                     //testText.moveTo((int)(p.x / world.getViewport().scale), (int)(p.y / world.getViewport().scale));
-                    //testText.setText("(" + world.vtwX(p.x) + ", " + world.vtwY(p.y) + ")");
+                    testText.setText("(" + String.format("%.2f", world.vtwX(p.x)) + ", " + String.format("%.2f", world.vtwY(p.y)) + ")", Color.BLACK);
                 }
-                testText.setText(Double.toString(System.currentTimeMillis()));
                 world.update(timeNow);
 
                 lastUpdate = timeNow;
