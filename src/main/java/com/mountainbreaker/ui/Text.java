@@ -2,6 +2,7 @@ package com.mountainbreaker.ui;
 
 import com.mountainbreaker.graphics.Sprite;
 import com.mountainbreaker.graphics.TiledImage;
+import com.mountainbreaker.input.InputEvent;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -44,4 +45,8 @@ public class Text extends Widget {
         g.dispose();
     }
 
+    @Override
+    public boolean onAction(InputEvent e) {
+        return false;
+    }
 }

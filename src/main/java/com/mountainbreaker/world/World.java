@@ -108,9 +108,10 @@ public class World {
             drawList.add(w);
         }
 
-        lastUpdate = frameTime;
-        viewport.render(drawList.toArray(new Drawable[0]));
+    }
 
+    public ArrayList<Drawable> getDrawList() {
+        return drawList;
     }
 
     public Viewport getViewport() {return viewport;}

@@ -3,7 +3,7 @@ package com.mountainbreaker.ui;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Area extends Widget {
+public abstract class Area extends Widget {
     public enum BackgroundStyle {
         STYLE_SHARP,
         STYLE_ROUNDED,

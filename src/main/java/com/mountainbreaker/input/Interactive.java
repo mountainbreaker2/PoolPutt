@@ -4,5 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public interface Interactive {
-    boolean onInteract(MouseEvent m, KeyEvent k);
+    boolean onInteract(InputEvent e);
+    boolean onAction(InputEvent e);
 }

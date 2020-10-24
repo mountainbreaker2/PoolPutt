@@ -1,12 +1,42 @@
 package com.mountainbreaker.ui;
 
 import com.mountainbreaker.graphics.Drawable;
+import com.mountainbreaker.input.InputEvent;
+import com.mountainbreaker.input.Interactive;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Widget implements Drawable {
+public abstract class Widget implements Drawable, Interactive {
+    @Override
+    public boolean onInteract(InputEvent e) {
+        if (e.getInputType() == InputEvent.INPUT_MOUSE) {
+            int mX = e.getMouseX();
+            int mY = e.getMouseY();
+
+            if(mX > bounds.x && mX < bounds.x + bounds.width && mY > bounds.y && mY < bounds.y + bounds.height) {
+                for(Widget w : children) {
+                    boolean captured = w.onInteract(e);
+                    if(captured) return true;
+                }
+
+                return onAction(e);
+            }
+        }
+
+        if(e.getInputType() == InputEvent.INPUT_KEY) {
+            for(Widget w : children) {
+                boolean captured = w.onInteract(e);
+                if(captured) return true;
+            }
+
+            return onAction(e);
+        }
+
+        return false;
+    }
+
     public static class Margins {
         public int left, right, top, bottom;
 
@@ -15,6 +45,8 @@ public class Widget implements Drawable {
     }
 
     protected boolean needUpdate;
+
+    protected final ArrayList<Integer> boundKeys = new ArrayList<>();
 
     protected final Rectangle bounds = new Rectangle();
     protected final Margins margins = new Margins();
@@ -71,6 +103,10 @@ public class Widget implements Drawable {
         children.add(child);
 
         needUpdate = true;
+    }
+
+    public void addKeybind(int keyCode) {
+        boundKeys.add(keyCode);
     }
 
     public void setId(String id) { this.id = id; }

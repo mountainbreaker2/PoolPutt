@@ -1,21 +1,27 @@
 package com.mountainbreaker.ui;
 
-public class HUD {
-    Widget master;
+import com.mountainbreaker.graphics.Drawable;
+import com.mountainbreaker.input.InputEvent;
+import com.mountainbreaker.input.Interactive;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+
+public class HUD extends Widget {
+    public static class Message {
+
+    }
 
     public HUD() {
-        master = new Widget();
+        //master = new Widget();
     }
 
-    public HUD(int width, int height, Widget masterWidget) {
-        if(masterWidget == null) {
-            master = new Widget(0, 0, width, height);
-        }
-        else master = masterWidget;
+    public HUD(int width, int height) {
+        super(0, 0, width, height);
     }
 
-    public void addWidget(Widget widget) {
-        master.addChild(widget);
+    @Override
+    public boolean onAction(InputEvent e) {
+        return false;
     }
-
 }
