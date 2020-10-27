@@ -122,6 +122,10 @@ public abstract class Widget implements Drawable, Interactive {
         return null;
     }
 
+    public void onSignal(String message) {
+        if(parent != null) parent.onSignal(message);
+    }
+
     @Override
     public void update(double frameTime) {
     }

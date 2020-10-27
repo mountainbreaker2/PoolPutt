@@ -24,4 +24,9 @@ public class HUD extends Widget {
     public boolean onAction(InputEvent e) {
         return false;
     }
+
+    @Override
+    public void onSignal(String message) {
+        System.out.println(message + " made it to the HUD");
+    }
 }

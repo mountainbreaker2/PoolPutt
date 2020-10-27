@@ -12,10 +12,12 @@ public class Button extends Area {
         super(pX, pY, width, height, bgColor, bgStyle);
     }
 
+
+
     @Override
     public boolean onAction(InputEvent e) {
         if(e.getEventType() == MouseEvent.MOUSE_CLICKED){
-            System.out.println("Button clicked!");
+            onSignal(id + ":clicked");
 
             return true;
         }
