@@ -9,34 +9,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public abstract class Widget implements Drawable, Interactive {
-    @Override
-    public boolean onInteract(InputEvent e) {
-        if (e.getInputType() == InputEvent.INPUT_MOUSE) {
-            int mX = e.getMouseX();
-            int mY = e.getMouseY();
-
-            if(mX > bounds.x && mX < bounds.x + bounds.width && mY > bounds.y && mY < bounds.y + bounds.height) {
-                for(Widget w : children) {
-                    boolean captured = w.onInteract(e);
-                    if(captured) return true;
-                }
-
-                return onAction(e);
-            }
-        }
-
-        if(e.getInputType() == InputEvent.INPUT_KEY) {
-            for(Widget w : children) {
-                boolean captured = w.onInteract(e);
-                if(captured) return true;
-            }
-
-            return onAction(e);
-        }
-
-        return false;
-    }
-
+    /////////////////////////////////////////////////////////////
+    // Inner class Margins
+    // Basically a renamed Rectangle with fewer methods. Present for clarity.
     public static class Margins {
         public int left, right, top, bottom;
 
@@ -44,12 +19,9 @@ public abstract class Widget implements Drawable, Interactive {
         public Margins(int l, int r, int t, int b) { left = l; right = r; top = t; bottom = b; }
     }
 
+    ///////////////////////////////////////////////////////////////
+    // Members
     protected boolean needUpdate;
-
-    protected final ArrayList<Integer> boundKeys = new ArrayList<>();
-
-    protected final Rectangle bounds = new Rectangle();
-    protected final Margins margins = new Margins();
 
     protected String id;
 
@@ -57,12 +29,13 @@ public abstract class Widget implements Drawable, Interactive {
 
     protected Widget parent = null;
     protected final ArrayList<Widget> children = new ArrayList<>();
+    protected final Rectangle bounds = new Rectangle();
+    protected final Margins margins = new Margins();
 
-    protected void resurface() {
-        surface = null;
-        surface = new BufferedImage(bounds.width + margins.left + margins.right, bounds.height + margins.top + margins.bottom, BufferedImage.TYPE_INT_ARGB);
-    }
+    /////////////////////////////////////////////////////////////////
+    // Methods
 
+    // Constructors
     public Widget() {
         moveTo(0, 0);
         setBounds( 1, 1);
@@ -75,6 +48,12 @@ public abstract class Widget implements Drawable, Interactive {
         setBounds(width, height);
 
         id = Long.toString(System.currentTimeMillis());
+    }
+
+    // Reinitialize the drawing surface (for a change in bounds, override to draw self)
+    protected void resurface() {
+        surface = null;
+        surface = new BufferedImage(bounds.width + margins.left + margins.right, bounds.height + margins.top + margins.bottom, BufferedImage.TYPE_INT_ARGB);
     }
 
     public void moveTo(int toX, int toY) {
@@ -105,10 +84,6 @@ public abstract class Widget implements Drawable, Interactive {
         needUpdate = true;
     }
 
-    public void addKeybind(int keyCode) {
-        boundKeys.add(keyCode);
-    }
-
     public void setId(String id) { this.id = id; }
 
     public Widget findById(String id) {
@@ -122,8 +97,9 @@ public abstract class Widget implements Drawable, Interactive {
         return null;
     }
 
+    // Child widgets call this on their parent with a specific message to pass string data up the hierarchy
     public void onSignal(String message) {
-        if(parent != null) parent.onSignal(message);
+        if(parent != null) parent.onSignal(id + ":" + message);
     }
 
     @Override
@@ -146,6 +122,34 @@ public abstract class Widget implements Drawable, Interactive {
         g.dispose();
 
         return composite;
+    }
+
+    @Override
+    public boolean onInteract(InputEvent e) {
+        if (e.getInputType() == InputEvent.INPUT_MOUSE) {
+            int mX = e.getMouseX();
+            int mY = e.getMouseY();
+
+            if(mX > bounds.x && mX < bounds.x + bounds.width && mY > bounds.y && mY < bounds.y + bounds.height) {
+                for(Widget w : children) {
+                    boolean captured = w.onInteract(e);
+                    if(captured) return true;
+                }
+
+                return onAction(e);
+            }
+        }
+
+        if(e.getInputType() == InputEvent.INPUT_KEY) {
+            for(Widget w : children) {
+                boolean captured = w.onInteract(e);
+                if(captured) return true;
+            }
+
+            return onAction(e);
+        }
+
+        return false;
     }
 
     @Override

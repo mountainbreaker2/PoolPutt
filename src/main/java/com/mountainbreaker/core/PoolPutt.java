@@ -39,7 +39,9 @@ public class PoolPutt extends Canvas implements Runnable {
 
         inputListener = new InputListener(this, SCALE);
         hud = new HUD(WIDTH, HEIGHT);
-        hud.addChild(new Button(10, 10, 50, 50, Color.DARK_GRAY, Area.BackgroundStyle.STYLE_SHARP));
+        Button b = new Button(10, 10, 50, 50, Color.DARK_GRAY, Area.BackgroundStyle.STYLE_SHARP);
+        b.setId("button1");
+        hud.addChild(b);
         inputListener.addInteractionListener(hud);
         addMouseListener(inputListener);
         addKeyListener(inputListener);

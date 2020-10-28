@@ -27,6 +27,11 @@ public class HUD extends Widget {
 
     @Override
     public void onSignal(String message) {
-        System.out.println(message + " made it to the HUD");
+        String[] tags = message.split(":");
+
+        for(String tag : tags) {
+            System.out.println(tag);
+        }
+
     }
 }
