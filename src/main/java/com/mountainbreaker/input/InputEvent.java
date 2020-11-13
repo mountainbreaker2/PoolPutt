@@ -25,17 +25,17 @@ public class InputEvent {
     public static float getInputScale() { return inputScale;}
 
     InputEvent(KeyEvent k, int mouseX, int mouseY) {
-        if(keys == null) keys = new boolean[KeyEvent.VK_Z - KeyEvent.VK_0];
+        if(keys == null) keys = new boolean[KeyEvent.VK_Z - KeyEvent.VK_0 + 1];
         if(buttons == null) buttons = new boolean[MouseInfo.getNumberOfButtons()];
 
         switch (k.getID()) {
             case KeyEvent.KEY_TYPED:
                 break;
             case KeyEvent.KEY_PRESSED:
-                keys[k.getKeyCode()] = true;
+                keys[k.getKeyCode() - KeyEvent.VK_0] = true;
                 break;
             case KeyEvent.KEY_RELEASED:
-                keys[k.getKeyCode()] = false;
+                keys[k.getKeyCode() - KeyEvent.VK_0] = false;
                 break;
         }
 

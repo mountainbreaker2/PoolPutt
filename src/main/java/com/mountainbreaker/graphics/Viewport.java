@@ -66,7 +66,7 @@ public class Viewport extends JFrame {
             Graphics g = unscaledBuffer.getGraphics();
             for(Drawable drawable : spriteList) {
                 BufferedImage i = drawable.image();
-                g.drawImage(i, drawable.getX(), drawable.getY(), i.getWidth(), i.getHeight(), null);
+                g.drawImage(i, drawable.drawX(), drawable.drawY(), i.getWidth(), i.getHeight(), null);
             }
 
             g.dispose();

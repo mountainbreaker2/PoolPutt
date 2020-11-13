@@ -1,16 +1,10 @@
 package com.mountainbreaker.ui;
 
-import com.mountainbreaker.graphics.Drawable;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.mountainbreaker.core.JSONLoader;
 import com.mountainbreaker.input.InputEvent;
-import com.mountainbreaker.input.Interactive;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 public class HUD extends Widget {
-    public static class Message {
-
-    }
 
     public HUD() {
         //master = new Widget();
@@ -18,6 +12,22 @@ public class HUD extends Widget {
 
     public HUD(int width, int height) {
         super(0, 0, width, height);
+    }
+
+    public void loadUI(String name) {
+        JsonNode node = null;
+        try {
+            node = JSONLoader.parse(getClass().getResourceAsStream("/data/ui/play.json"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonNode widget = null;
+        if(node != null) {
+            node.findValue("widgetType");
+        }
+
     }
 
     @Override

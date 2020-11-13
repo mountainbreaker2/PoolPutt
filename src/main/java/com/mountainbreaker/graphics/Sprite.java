@@ -1,13 +1,12 @@
 package com.mountainbreaker.graphics;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.mountainbreaker.core.JSONLoader;
+import com.mountainbreaker.core.DynamicObject;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Vector;
 
-public class Sprite implements Drawable{
+public class Sprite extends DynamicObject implements Drawable{
     ///////////////////////////////////////////////////////////////////
     // Animation class
     public static class Animation {
@@ -35,9 +34,10 @@ public class Sprite implements Drawable{
         }
     }
 
-    public int px, py;
 
-    protected TiledImage spriteSheet;
+    public int pX, pY;
+
+    protected Image spriteSheet;
 
     private int indexOffset;
     private int currentAnimation;
@@ -45,7 +45,7 @@ public class Sprite implements Drawable{
     private double lastUpdate;
     private float frameInterval;
 
-    public Vector<Animation> animations;
+    public ArrayList<Animation> animations;
 
     public static Sprite nullSprite() {
         return Sprite.load("null");
@@ -55,8 +55,8 @@ public class Sprite implements Drawable{
         SpriteData data = SpriteData.load(id);
 
         Sprite loadedSprite = new Sprite();
-        loadedSprite.px = loadedSprite.py = 0;
-        loadedSprite.spriteSheet = TiledImage.getImage(data.getId());
+        loadedSprite.pX = loadedSprite.pY = 0;
+        loadedSprite.spriteSheet = Image.getImage(data.getId());
         loadedSprite.animations = data.getAnimations();
 
         if(loadedSprite.animations.size() < 1) {
@@ -68,16 +68,16 @@ public class Sprite implements Drawable{
         return loadedSprite;
     }
 
-    public static Sprite create(TiledImage sourceSheet, Vector<Animation> animations) {
+    public static Sprite create(Image sourceSheet, ArrayList<Animation> animations) {
         if(sourceSheet == null) return null;
-        if(sourceSheet.getSprite(0) == null) return null;
+        if(sourceSheet.getTile(0) == null) return null;
 
         Sprite newSprite = new Sprite();
 
-        newSprite.px = newSprite.py = 0;
+        newSprite.pX = newSprite.pY = 0;
 
         newSprite.spriteSheet = sourceSheet;
-        newSprite.animations = Objects.requireNonNullElseGet(animations, Vector::new);
+        newSprite.animations = Objects.requireNonNullElseGet(animations, ArrayList::new);
 
         if(newSprite.animations.size() < 1) {
             newSprite.animations.add(new Sprite.Animation());
@@ -116,17 +116,17 @@ public class Sprite implements Drawable{
 
     @Override
     public BufferedImage image() {
-        return spriteSheet.getSprite(indexOffset + animations.get(currentAnimation).startFrame);
+        return spriteSheet.getTile(indexOffset + animations.get(currentAnimation).startFrame);
     }
 
     @Override
-    public int getX() {
-        return px;
+    public int drawX() {
+        return pX;
     }
 
     @Override
-    public int getY() {
-        return py;
+    public int drawY() {
+        return pY;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.mountainbreaker.ui;
 
+import com.mountainbreaker.core.DynamicObject;
 import com.mountainbreaker.graphics.Drawable;
 import com.mountainbreaker.input.InputEvent;
 import com.mountainbreaker.input.Interactive;
@@ -8,7 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public abstract class Widget implements Drawable, Interactive {
+public abstract class Widget extends DynamicObject implements Drawable, Interactive {
     /////////////////////////////////////////////////////////////
     // Inner class Margins
     // Basically a renamed Rectangle with fewer methods. Present for clarity.
@@ -22,6 +23,7 @@ public abstract class Widget implements Drawable, Interactive {
     ///////////////////////////////////////////////////////////////
     // Members
     protected boolean needUpdate;
+    protected boolean enabled;
 
     protected String id;
 
@@ -40,12 +42,16 @@ public abstract class Widget implements Drawable, Interactive {
         moveTo(0, 0);
         setBounds( 1, 1);
 
+        enabled = true;
+
         id = Long.toString(System.currentTimeMillis());
     }
 
     public Widget(int atX, int atY, int width, int height) {
         moveTo(atX, atY);
         setBounds(width, height);
+
+        enabled = true;
 
         id = Long.toString(System.currentTimeMillis());
     }
@@ -126,6 +132,8 @@ public abstract class Widget implements Drawable, Interactive {
 
     @Override
     public boolean onInteract(InputEvent e) {
+        if(!enabled) return false;
+
         if (e.getInputType() == InputEvent.INPUT_MOUSE) {
             int mX = e.getMouseX();
             int mY = e.getMouseY();
@@ -152,13 +160,13 @@ public abstract class Widget implements Drawable, Interactive {
         return false;
     }
 
-    @Override
-    public int getX() {
-        return bounds.x;
-    }
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
+    public boolean isEnabled() { return enabled; }
 
     @Override
-    public int getY() {
-        return bounds.y;
-    }
+    public int drawX() {return bounds.x;}
+
+    @Override
+    public int drawY() {return bounds.y;}
 }

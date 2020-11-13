@@ -1,7 +1,5 @@
 package com.mountainbreaker.ui;
 
-import com.mountainbreaker.graphics.Sprite;
-import com.mountainbreaker.graphics.TiledImage;
 import com.mountainbreaker.input.InputEvent;
 
 import java.awt.*;

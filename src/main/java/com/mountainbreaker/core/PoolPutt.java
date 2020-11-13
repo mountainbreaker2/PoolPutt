@@ -4,14 +4,13 @@ import com.mountainbreaker.graphics.Drawable;
 import com.mountainbreaker.graphics.Viewport;
 import com.mountainbreaker.input.InputListener;
 import com.mountainbreaker.ui.*;
+import com.mountainbreaker.world.Camera;
+import com.mountainbreaker.world.TileMap;
 import com.mountainbreaker.world.World;
-import com.mountainbreaker.world.Tile;
 
 //import java.awt.*;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Point;
-import java.awt.event.*;
 import java.util.ArrayList;
 
 public class PoolPutt extends Canvas implements Runnable {
@@ -22,8 +21,10 @@ public class PoolPutt extends Canvas implements Runnable {
     public static final String NAME = "Pool Putt";
 
     World world;
+    Camera camera;
 
     InputListener inputListener;
+    Viewport viewport;
 
     HUD hud;
 
@@ -35,7 +36,13 @@ public class PoolPutt extends Canvas implements Runnable {
 
     PoolPutt() {
 
-        world = new World(new Viewport(this, NAME, WIDTH, HEIGHT, SCALE), (int)(WIDTH * 1.5), (int)(HEIGHT * 1.5), 16);
+        viewport = new Viewport(this, NAME, WIDTH, HEIGHT, 1.0f);
+
+        world = new World();
+        camera = (Camera)(new Camera(WIDTH, HEIGHT).spawn(world, "Camera", 0, 0));
+        TileMap tileMap = (TileMap)(new TileMap().spawn(world, "TileMap", 0.0f, 0.0f));
+        tileMap.loadTileset("terrain", 16);
+        tileMap.buildTileMap(20, 20);
 
         inputListener = new InputListener(this, SCALE);
         hud = new HUD(WIDTH, HEIGHT);
@@ -43,10 +50,9 @@ public class PoolPutt extends Canvas implements Runnable {
         b.setId("button1");
         hud.addChild(b);
         inputListener.addInteractionListener(hud);
+        inputListener.addInteractionListener(world);
         addMouseListener(inputListener);
         addKeyListener(inputListener);
-
-        world.build();
 
         requestFocus();
 
@@ -69,11 +75,11 @@ public class PoolPutt extends Canvas implements Runnable {
             double timeNow = System.nanoTime();
             if(timeNow - lastUpdate > frameInterval) {
                 world.update(timeNow);
-                world.getViewport().render(new Drawable[] {hud});
+                viewport.render(world.getCameras().toArray(new Camera[0]));
 
-                ArrayList<Drawable> drawList = world.getDrawList();
-                drawList.add(hud);
-                world.getViewport().render(drawList.toArray(new Drawable[0]));
+                //ArrayList<Drawable> drawList = world.getDrawList();
+                //drawList.add(hud);
+                //world.getViewport().render(drawList.toArray(new Drawable[0]));
 
                 lastUpdate = timeNow;
             }

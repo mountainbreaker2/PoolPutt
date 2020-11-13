@@ -42,17 +42,17 @@ public class SpriteData {
     ///////////////////////////////////////////////////////////////////
     // Object Data
     private String id;
-    private Vector<Sprite.Animation> animations;
+    private ArrayList<Sprite.Animation> animations;
 
     ///////////////////////////////////////////////////////////////////
     // Constructors
     SpriteData() {
         id = "null";
-        animations = new Vector<>();
+        animations = new ArrayList<>();
         animations.add(new Sprite.Animation());
     }
 
-    SpriteData(String spriteSheetFile, Vector<Sprite.Animation> animations) {
+    SpriteData(String spriteSheetFile, ArrayList<Sprite.Animation> animations) {
         this.id = spriteSheetFile;
         this.animations = animations;
     }
@@ -67,11 +67,11 @@ public class SpriteData {
         this.id = id;
     }
 
-    public Vector<Sprite.Animation> getAnimations() {
+    public ArrayList<Sprite.Animation> getAnimations() {
         return animations;
     }
 
-    public void setAnimations(Vector<Sprite.Animation> animations) {
+    public void setAnimations(ArrayList<Sprite.Animation> animations) {
         this.animations = animations;
     }
 }
