@@ -23,6 +23,7 @@ public class InputListener implements MouseListener, MouseMotionListener, KeyLis
             if(parent != null) {
                 mPos = parent.getMousePosition();
             }
+            if(mPos == null) mPos = new Point(-1, -1);
 
             InputEvent e = new InputEvent(k, mPos.x, mPos.y);
             for (Interactive i : listeners) {
