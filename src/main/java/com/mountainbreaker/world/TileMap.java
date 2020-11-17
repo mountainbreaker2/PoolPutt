@@ -4,6 +4,7 @@ import com.mountainbreaker.core.DynamicObject;
 import com.mountainbreaker.graphics.Drawable;
 import com.mountainbreaker.graphics.Image;
 import com.mountainbreaker.graphics.Sprite;
+import com.mountainbreaker.input.InputEvent;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -43,6 +44,11 @@ public class TileMap extends Entity {
 
         int mapArea = tilesX * tilesY;
         mapData = new char[mapArea];
+
+        for(int i = 0; i < mapArea; i++) {
+            mapData[i] = (char)(i % 6);
+        }
+
         this.tilesX = tilesX;
         this.tilesY = tilesY;
 
@@ -69,4 +75,5 @@ public class TileMap extends Entity {
     public boolean isTilesetLoaded() { return (tileset != null); }
 
     public boolean isMapDataLoaded() { return (mapData.length > 0); }
+
 }

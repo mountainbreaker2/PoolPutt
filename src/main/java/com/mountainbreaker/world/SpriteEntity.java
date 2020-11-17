@@ -1,6 +1,7 @@
 package com.mountainbreaker.world;
 
 import com.mountainbreaker.graphics.Sprite;
+import com.mountainbreaker.input.InputEvent;
 
 import java.util.Objects;
 
@@ -19,4 +20,5 @@ public class SpriteEntity extends Entity {
 
         registerDrawableComponent(this.sprite);
     }
+
 }

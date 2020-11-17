@@ -87,7 +87,5 @@ public class InputListener implements MouseListener, MouseMotionListener, KeyLis
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-        pollListeners(null, e);
-    }
+    public void mouseMoved(MouseEvent e) { pollListeners(null, e); }
 }

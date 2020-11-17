@@ -2,15 +2,18 @@ package com.mountainbreaker.world;
 
 import com.mountainbreaker.core.DynamicObject;
 import com.mountainbreaker.graphics.Drawable;
+import com.mountainbreaker.input.InputEvent;
+import com.mountainbreaker.input.Interactive;
 import com.mountainbreaker.ui.SignalListener;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public abstract class Entity extends DynamicObject implements SignalListener {
+public abstract class Entity extends DynamicObject implements SignalListener, Interactive {
     protected Vec2 translation;
     protected Vec2 size;
     protected Vec2 scale;
+    protected Vec2 acceleration;
 
     protected boolean active;
     protected boolean visible;
@@ -25,6 +28,7 @@ public abstract class Entity extends DynamicObject implements SignalListener {
         translation = new Vec2();
         size = new Vec2();
         scale = new Vec2(1.0f, 1.0f);
+        acceleration = new Vec2();
 
         active = true;
         visible = false;
@@ -36,6 +40,7 @@ public abstract class Entity extends DynamicObject implements SignalListener {
         translation = new Vec2(px, py);
         size = new Vec2();
         scale = new Vec2(1.0f, 1.0f);
+        acceleration = new Vec2();
 
         active = true;
         visible = false;
@@ -47,6 +52,7 @@ public abstract class Entity extends DynamicObject implements SignalListener {
         translation = new Vec2(px, py);
         size = new Vec2();
         scale = new Vec2(1.0f, 1.0f);
+        acceleration = new Vec2();
 
         active = true;
         visible = false;
@@ -84,10 +90,26 @@ public abstract class Entity extends DynamicObject implements SignalListener {
     }
 
     @Override
-    public void update(double frameTime) {}
+    public void update(double frameTime) {
+        moveTo(translation.x + acceleration.x, translation.y + acceleration.y);
+    }
 
     @Override
     public void onSignal(String[] signalChain) {} // Do nothing by default
+
+    @Override
+    public boolean onInteract(InputEvent e) {
+        if(isActive()) {
+            return onAction(e);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean onAction(InputEvent e) {
+        return false;
+    }
 
     public String getId() { return id; }
 
@@ -134,4 +156,5 @@ public abstract class Entity extends DynamicObject implements SignalListener {
     public void setActive(boolean active) { this.active = active; }
 
     public boolean isActive() { return active; }
+
 }

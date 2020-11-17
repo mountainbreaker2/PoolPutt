@@ -49,7 +49,7 @@ public class InputEvent {
     }
 
     InputEvent(MouseEvent m) {
-        if(keys == null) keys = new boolean[KeyEvent.VK_Z - KeyEvent.VK_0];
+        if(keys == null) keys = new boolean[100];
         if(buttons == null) buttons = new boolean[MouseInfo.getNumberOfButtons()];
 
         switch (m.getID()) {
@@ -66,8 +66,8 @@ public class InputEvent {
         eventType = m.getID();
         keyCode = -1;
 
-        mouseX = (int)(m.getX() / inputScale);
-        mouseY = (int)(m.getY() / inputScale);
+        mouseX = (int)(m.getX() / getInputScale());
+        mouseY = (int)(m.getY() / getInputScale());
     }
 
     public int getEventType() {

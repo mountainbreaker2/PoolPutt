@@ -30,6 +30,16 @@ public class Image {
         return imageList.get(0);
     }
 
+    public static Image create(String id, int width, int height) {
+        Image createdImage = new Image();
+
+        createdImage.id = id;
+        createdImage.baseImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        imageList.add(createdImage);
+        return createdImage;
+    }
+
     private static String genPath(String id) {
         return "/graphics/" + id + ".png";
     }

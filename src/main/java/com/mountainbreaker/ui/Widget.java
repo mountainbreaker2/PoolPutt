@@ -30,6 +30,7 @@ public abstract class Widget extends DynamicObject implements Drawable, Interact
     protected BufferedImage surface;
 
     protected Widget parent = null;
+    protected boolean eventBounded = true;
     protected final ArrayList<Widget> children = new ArrayList<>();
     protected final Rectangle bounds = new Rectangle();
     protected final Margins margins = new Margins();
@@ -110,6 +111,9 @@ public abstract class Widget extends DynamicObject implements Drawable, Interact
 
     @Override
     public void update(double frameTime) {
+        for(Widget w : children) {
+            w.update(frameTime);
+        }
     }
 
     @Override
@@ -138,7 +142,7 @@ public abstract class Widget extends DynamicObject implements Drawable, Interact
             int mX = e.getMouseX();
             int mY = e.getMouseY();
 
-            if(mX > bounds.x && mX < bounds.x + bounds.width && mY > bounds.y && mY < bounds.y + bounds.height) {
+            if((mX > bounds.x && mX < bounds.x + bounds.width && mY > bounds.y && mY < bounds.y + bounds.height) || !eventBounded) {
                 for(Widget w : children) {
                     boolean captured = w.onInteract(e);
                     if(captured) return true;

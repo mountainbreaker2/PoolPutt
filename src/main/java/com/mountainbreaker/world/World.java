@@ -70,6 +70,9 @@ public class World extends DynamicObject implements Interactive {
 
     @Override
     public boolean onInteract(InputEvent e) {
+        for(Entity entity : entities) {
+            entity.onInteract(e);
+        }
         return false;
     }
 
